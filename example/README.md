@@ -1,8 +1,55 @@
-# get_ip_example
+```dart
+import 'package:flutter/material.dart';
+import 'dart:async';
 
-Demonstrates how to use the get_ip plugin.
+import 'package:flutter/services.dart';
+import 'package:get_ip/get_ip.dart';
 
-## Getting Started
+void main() => runApp(new MyApp());
 
-For help getting started with Flutter, view our online
-[documentation](https://flutter.io/).
+class MyApp extends StatefulWidget {
+  @override
+  _MyAppState createState() => new _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
+  String _ip = 'Unknown';
+
+  @override
+  void initState() {
+    super.initState();
+    initPlatformState();
+  }
+
+  // Platform messages are asynchronous, so we initialize in an async method.
+  Future<void> initPlatformState() async {
+    String ipAdress;
+    // Platform messages may fail, so we use a try/catch PlatformException.
+    try {
+      ipAdress = await GetIp.ipAddress;
+    } on PlatformException {
+      ipAdress = 'Failed to get ipAdress.';
+    }
+
+    if (!mounted) return;
+
+    setState(() {
+      _ip = ipAdress;
+    });
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return new MaterialApp(
+      home: new Scaffold(
+        appBar: new AppBar(
+          title: const Text('IP Example app'),
+        ),
+        body: new Center(
+          child: new Text('Running on: $_ip\n'),
+        ),
+      ),
+    );
+  }
+}
+```

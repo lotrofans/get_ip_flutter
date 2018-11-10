@@ -1,11 +1,11 @@
 name: get_ip
-description: Helps you identify the IP address of the users device
-version: 0.0.1
+description: Helps you acquire the IP address of the users device on Android and iOS
+version: 0.0.2
 author: Simon Baermann <simon@pdad.de>
-homepage: https://technik-beam.de
+github: https://github.com/lotrofans/get_ip_flutter
 
 environment:
-  sdk: ">=2.0.0-dev.68.0 <3.0.0"
+  sdk: ">=2.0.0 <3.0.0"
 
 dependencies:
   flutter:

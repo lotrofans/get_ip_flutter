@@ -3,8 +3,7 @@ import 'dart:async';
 import 'package:flutter/services.dart';
 
 class GetIp {
-  static const MethodChannel _channel =
-      const MethodChannel('get_ip');
+  static const MethodChannel _channel = const MethodChannel('get_ip');
 
   ///
   /// Returns the users IPv4-Adress
