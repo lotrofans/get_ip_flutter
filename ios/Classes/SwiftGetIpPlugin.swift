@@ -1,6 +1,7 @@
 import Flutter
 import UIKit
 
+
 public class SwiftGetIpPlugin: NSObject, FlutterPlugin {
   public static func register(with registrar: FlutterPluginRegistrar) {
     let channel = FlutterMethodChannel(name: "get_ip", binaryMessenger: registrar.messenger())
@@ -9,43 +10,43 @@ public class SwiftGetIpPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    result(getWiFiAddress)
+    let ip =  getWiFiAddress()
+    result(ip)
   }
 
   // Return IP address of WiFi interface (en0) as a String, or `nil`
-  func getWiFiAddress() -> String? {
-    var address : String?
+  public func getWiFiAddress() -> String? {
+        var address : String?
 
-    // Get list of all interfaces on the local machine:
-    var ifaddr : UnsafeMutablePointer<ifaddrs> = nil
-    if getifaddrs(&ifaddr) == 0 {
+        // Get list of all interfaces on the local machine:
+        var ifaddr : UnsafeMutablePointer<ifaddrs>?
+        guard getifaddrs(&ifaddr) == 0 else { return nil }
+        guard let firstAddr = ifaddr else { return nil }
 
         // For each interface ...
-        var ptr = ifaddr
-        while ptr != nil {
-            defer { ptr = ptr.memory.ifa_next }
-
-            let interface = ptr.memory
+        for ifptr in sequence(first: firstAddr, next: { $0.pointee.ifa_next }) {
+            let interface = ifptr.pointee
 
             // Check for IPv4 or IPv6 interface:
-            let addrFamily = interface.ifa_addr.memory.sa_family
+            let addrFamily = interface.ifa_addr.pointee.sa_family
             if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
 
                 // Check interface name:
-                if let name = String.fromCString(interface.ifa_name) where name == "en0" {
+                let name = String(cString: interface.ifa_name)
+                if  name == "en0" {
 
                     // Convert interface address to a human readable string:
-                    var hostname = [CChar](count: Int(NI_MAXHOST), repeatedValue: 0)
-                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.memory.sa_len),
+                    var hostname = [CChar](repeating: 0, count: Int(NI_MAXHOST))
+                    getnameinfo(interface.ifa_addr, socklen_t(interface.ifa_addr.pointee.sa_len),
                                 &hostname, socklen_t(hostname.count),
                                 nil, socklen_t(0), NI_NUMERICHOST)
-                    address = String.fromCString(hostname)
+                    address = String(cString: hostname)
                 }
             }
         }
         freeifaddrs(ifaddr)
-    }
 
-    return address
+        return address
+
   }
 }
