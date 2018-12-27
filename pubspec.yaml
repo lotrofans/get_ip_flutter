@@ -1,6 +1,6 @@
 name: get_ip
 description: Helps you acquire the IP address of the users device on Android and iOS
-version: 0.0.2
+version: 0.1.0
 author: Simon Baermann <simon@pdad.de>
 github: https://github.com/lotrofans/get_ip_flutter
 
