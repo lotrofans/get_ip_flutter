@@ -5,7 +5,7 @@ Helps you acquire the IP address of the users device. (Works on Android & iOS)
 Simply use this:
 
 ```dart
-String ipAdress = await GetIp.ipAddress;
+String ipAddress = await GetIp.ipAddress;
 ```
 
 You need to import the package:

@@ -23,18 +23,18 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String ipAdress;
+    String ipAddress;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      ipAdress = await GetIp.ipAddress;
+      ipAddress = await GetIp.ipAddress;
     } on PlatformException {
-      ipAdress = 'Failed to get ipAdress.';
+      ipAddress = 'Failed to get ipAdress.';
     }
 
     if (!mounted) return;
 
     setState(() {
-      _ip = ipAdress;
+      _ip = ipAddress;
     });
   }
 

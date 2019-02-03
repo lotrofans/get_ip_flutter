@@ -50,9 +50,9 @@ class GetIpPlugin(): MethodCallHandler {
           }
         }
       }
-    } catch (ignored: Exception) {
+    } catch (e: Exception) {
+      print(e);
     }
-    // for now eat exceptions
     return ""
   }
 }

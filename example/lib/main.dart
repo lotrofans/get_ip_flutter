@@ -22,12 +22,12 @@ class _MyAppState extends State<MyApp> {
 
   // Platform messages are asynchronous, so we initialize in an async method.
   Future<void> initPlatformState() async {
-    String ipAdress;
+    String ipAddress;
     // Platform messages may fail, so we use a try/catch PlatformException.
     try {
-      ipAdress = await GetIp.ipAddress;
+      ipAddress = await GetIp.ipAddress;
     } on PlatformException {
-      ipAdress = 'Failed to get ipAddress.';
+      ipAddress = 'Failed to get ipAddress.';
     }
 
     // If the widget was removed from the tree while the asynchronous platform
@@ -36,7 +36,7 @@ class _MyAppState extends State<MyApp> {
     if (!mounted) return;
 
     setState(() {
-      _ip = ipAdress;
+      _ip = ipAddress;
     });
   }
 
