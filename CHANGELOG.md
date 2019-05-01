@@ -1,3 +1,6 @@
+## 0.3.0
+Changed ext.kotlin_version to 1.3.21 to fix issues #5 and issue #4
+
 ## 0.2.0
 Changes relating to issue #2
 
