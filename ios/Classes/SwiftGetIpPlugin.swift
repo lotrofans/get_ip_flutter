@@ -10,13 +10,20 @@ public class SwiftGetIpPlugin: NSObject, FlutterPlugin {
   }
 
   public func handle(_ call: FlutterMethodCall, result: @escaping FlutterResult) {
-    let ip =  getWiFiAddress()
+    let ip =  getWiFiAddress(ipAddressType:call.method)
     result(ip)
   }
 
   // Return IP address of WiFi interface (en0) as a String, or `nil`
-  public func getWiFiAddress() -> String? {
+    public func getWiFiAddress(ipAddressType:String) -> String? {
         var address : String?
+        var targetAddrFamily : UInt8?
+        
+        if ipAddressType == "getIpV6Adress" {
+            targetAddrFamily = UInt8(AF_INET6)
+        } else{
+            targetAddrFamily = UInt8(AF_INET)
+        }
 
         // Get list of all interfaces on the local machine:
         var ifaddr : UnsafeMutablePointer<ifaddrs>?
@@ -29,7 +36,7 @@ public class SwiftGetIpPlugin: NSObject, FlutterPlugin {
 
             // Check for IPv4 or IPv6 interface:
             let addrFamily = interface.ifa_addr.pointee.sa_family
-            if addrFamily == UInt8(AF_INET) || addrFamily == UInt8(AF_INET6) {
+            if addrFamily == targetAddrFamily {
 
                 // Check interface name:
                 let name = String(cString: interface.ifa_name)
