@@ -1,6 +1,6 @@
 # get_ip
 
-Helps you acquire the IP address of the users device. (Works on Android & iOS)
+Helps you acquire the IP address of the user's device. (Works on Android & iOS)
 
 Simply use this:
 
